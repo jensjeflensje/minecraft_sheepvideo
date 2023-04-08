@@ -1,0 +1,10 @@
+name: SheepVideoPlugin
+version: '${project.version}'
+main: dev.jensderuiter.minecraft_sheepvideo.SheepVideoPlugin
+api-version: 1.19
+commands:
+  playvideo:
+    usage: /playvideo <url>
+  spawnsheep:
+    usage: /spawnsheep
+    description: Spawns 1000 sheep at your location.
