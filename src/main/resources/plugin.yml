@@ -5,6 +5,8 @@ api-version: 1.19
 commands:
   playvideo:
     usage: /playvideo <url>
+  playstream:
+    usage: /playstream <url>
   spawnsheep:
     usage: /spawnsheep
     description: Spawns 1000 sheep at your location.

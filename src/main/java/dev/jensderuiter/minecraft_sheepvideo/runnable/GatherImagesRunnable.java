@@ -17,6 +17,7 @@ public class GatherImagesRunnable extends BukkitRunnable {
 
     public File folder;
     public int frameCount;
+    public long nothingFoundTime = System.currentTimeMillis();
 
     public GatherImagesRunnable(File folder) {
         this.folder = folder;
@@ -29,8 +30,12 @@ public class GatherImagesRunnable extends BukkitRunnable {
             if (SheepVideoPlugin.frameQueue.size() < 40) {
                 File frameFile = new File(this.folder.getAbsolutePath(), ++this.frameCount + ".jpg");
                 if (!frameFile.exists()) {
-                    Bukkit.getLogger().info("File with count " + this.frameCount + " doesn't exist, stopping.");
-                    return;
+                    this.frameCount--;
+                    if (nothingFoundTime + 5000 < System.currentTimeMillis()) {
+                        Bukkit.getLogger().info("File with count " + this.frameCount + " doesn't exist, stopping.");
+                        return;
+                    }
+                    continue;
                 }
                 BufferedImage image = null;
                 try {
@@ -38,7 +43,9 @@ public class GatherImagesRunnable extends BukkitRunnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                nothingFoundTime = System.currentTimeMillis();
                 SheepVideoPlugin.frameQueue.add(new ImageFrame(this.frameCount, image));
+                frameFile.delete();
             }
         }
     }
